@@ -21,11 +21,12 @@ end
 
 agent.pluggable_parser.default = Mechanize::Download
 
-timers.every(1800)  {
+timers.every(900)  {
+  begin
   agent.get(ENV['URL']) do |main_page|
     main_page.link_with(text: Regexp.new(ENV['TEXT_TO_LOOK_FOR'])) do |link|
       if (link != nil)
-        puts link.text
+        puts link.text + " - " + Time.now.to_s
         Mail.deliver do
           from ENV['GMAIL_MAIL']
           to ENV['GMAIL_MAIL']
@@ -34,9 +35,12 @@ timers.every(1800)  {
         end
         return
       else
-        puts "Not yet!"
+        puts "Not yet! -" + Time.now.to_s
       end
     end
+  end
+  rescue
+    puts "Net failed - " + Time.now.to_s
   end
 }
 
