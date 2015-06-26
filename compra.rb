@@ -21,7 +21,7 @@ end
 
 agent.pluggable_parser.default = Mechanize::Download
 
-timers.every(900)  {
+timers.every(ENV['CHECK_INTERVAL'].to_i)  {
   begin
   agent.get(ENV['URL']) do |main_page|
     main_page.link_with(text: Regexp.new(ENV['TEXT_TO_LOOK_FOR'])) do |link|
