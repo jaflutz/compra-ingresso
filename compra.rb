@@ -29,7 +29,7 @@ timers.every(ENV['CHECK_INTERVAL'].to_i)  {
         puts link.text + " - " + Time.now.to_s
         Mail.deliver do
           from ENV['GMAIL_MAIL']
-          to ENV['GMAIL_MAIL']
+          to ENV['TO_GMAIL_MAIL']
           subject 'Sales opened'
           body 'Run!!'
         end
